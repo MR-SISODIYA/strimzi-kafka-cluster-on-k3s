@@ -10,8 +10,8 @@ sudo k3s kubectl get node
 
 -------------------------------------------------------------
 # Output: 
+kubectl get nodes
 
-root@Mr-Worthy:~# kubectl get nodes
 NAME        STATUS   ROLES                  AGE    VERSION
 mr-worthy   Ready    control-plane,master   2d2h   v1.32.5+k3s1
 
@@ -32,7 +32,7 @@ input:
 kubectl get pods -n kafka -w
 
 Output:
-root@Mr-Worthy:~/kafka# kubectl get pods -n kafka -w
+kubectl get pods -n kafka -w
 NAME                                        READY   STATUS    RESTARTS   AGE
 strimzi-cluster-operator-7db455b9c8-4rnt8   0/1     Running   0          4s
 strimzi-cluster-operator-7db455b9c8-4rnt8   1/1     Running   0          31s
