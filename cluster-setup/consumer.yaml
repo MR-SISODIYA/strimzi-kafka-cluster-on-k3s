@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-consumer
+  namespace: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+    spec:
+      containers:
+      - name: consumer
+        image: python:3.9
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            pip install kafka-python &&
+            python -c '
+            from kafka import KafkaConsumer
+            consumer = KafkaConsumer("my-topic",
+                                     bootstrap_servers="my-kafka-cluster-kafka-bootstrap.kafka.svc.cluster.local:9092",
+                                     auto_offset_reset="earliest")
+            for message in consumer:
+                print(f"Received: {message.value.decode()}")
+            '
