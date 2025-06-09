@@ -1,4 +1,4 @@
-############################################################## SETUP STRIMZI KAFKA CLUSTER ON LOCAL USING K3S FROM SCRATCH USING NODEPORT , PVC & HELM ######################################################################
+## SETUP STRIMZI KAFKA CLUSTER ON LOCAL USING K3S FROM SCRATCH USING NODEPORT , PVC & HELM ##
 
 # Setup k3s on local ubuntu : 
 ------------------------------------------------------------
