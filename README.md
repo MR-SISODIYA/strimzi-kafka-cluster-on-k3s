@@ -3,6 +3,7 @@
 # Setup k3s on local ubuntu : 
 ------------------------------------------------------------
 # input: 
+![image](https://github.com/user-attachments/assets/e546286d-39c4-4062-96ff-8f7b0a759e0d)
 
 curl -sfL https://get.k3s.io | sh - 
 # Check for Ready node, takes ~30 seconds 
