@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-producer
+  namespace: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer
+  template:
+    metadata:
+      labels:
+        app: producer
+    spec:
+      containers:
+      - name: producer
+        image: python:3.9
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            pip install kafka-python &&
+            python -c '''
+            from kafka import KafkaProducer
+            import time
+            import sys
+
+            producer = KafkaProducer(
+                bootstrap_servers="my-kafka-cluster-kafka-bootstrap.kafka.svc.cluster.local:9092",
+                api_version=(3,5,0)  # Must match your Kafka version
+            )
+            count = 0
+
+            while True:
+                timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+                message = f"Message {count} at {timestamp}"
+                producer.send("my-topic", message.encode("utf-8"))
+                print(f"Sent: {message}", flush=True)  # Force immediate flush
+                count += 1
+                time.sleep(5)
+            '''
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "nc -zv my-kafka-cluster-kafka-bootstrap.kafka.svc.cluster.local 9092"
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
